@@ -12,14 +12,15 @@ import { UserService } from '../../Admin/service/user.service';
 })
 export class UserProfileComponent  {
   
- 
-  public user :User=new User(0,'','',new Date(),'',0,'','','');
+  public user :User=new User(0,'','',new Date(),'',0,'','','','');
+
   constructor(private userService: UserService) {
 
     var getUser=localStorage.getItem("user");
     if(getUser)
     {
-    this.user=JSON.parse(getUser);
+
+     this.user=JSON.parse(getUser).user;
     console.log(this.user);
   
     }
@@ -30,5 +31,5 @@ export class UserProfileComponent  {
   }
   
         
-    }
+}
 

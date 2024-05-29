@@ -41,6 +41,7 @@ public class ExerciseController {
 	 */
 	@PostMapping(path = "/save")
 	public ResponseEntity<Exercise> save(@RequestBody Exercise exercise) {
+		System.out.println("hi");
 		exerciseService.save(exercise);
 
 		log.info("Exercise saved {}", exercise);

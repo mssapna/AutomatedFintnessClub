@@ -4,6 +4,7 @@ import { MembershipService } from '../service/membership.service';
 import { Membership } from '../model/membership.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-membershipreg',
@@ -22,13 +23,8 @@ export class MembershipregComponent implements OnInit, OnDestroy {
   membershipDetails: any;
 
 
-  constructor(private fb: FormBuilder, private membershipService: MembershipService, private route: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private membershipService: MembershipService, private route: ActivatedRoute, private router: Router,private snackBar:MatSnackBar) {
     this.createForm();
-  }
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
 
@@ -76,6 +72,7 @@ export class MembershipregComponent implements OnInit, OnDestroy {
 
 
     this.membershipService.saveMembership(membership).subscribe(() => {
+      this.showSnackBar('Added successfully!');
       this.router.navigate(['/admin/membership']);
     });
   }
@@ -86,6 +83,7 @@ export class MembershipregComponent implements OnInit, OnDestroy {
     membership.membershipId = this.membershipDetails.membershipId
 
     this.membershipService.updatemembership(membership).subscribe(() => {
+      this.showSnackBar('updated successfully!');
       this.router.navigate(['/admin/membership']);
     });
   }
@@ -106,5 +104,18 @@ export class MembershipregComponent implements OnInit, OnDestroy {
       )
     }
   }
+   showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, 
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
 
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

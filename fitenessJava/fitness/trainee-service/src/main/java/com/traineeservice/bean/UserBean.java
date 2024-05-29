@@ -28,4 +28,6 @@ public class UserBean {
 	
 	private String role;
 	
+	private String fitnessActivity;
+	
 }

@@ -9,11 +9,11 @@
     background-size: cover;
 
   }
-  button{
+  /* button{
     background-color: orange;
     width: 100px;
     height: 35px;
-  }
+  } */
   .user{
     left: 50px;
      color: orange;
@@ -73,4 +73,6 @@
       align-items: center;
   
     }
-    
+    .section{
+      margin-left: 200px;
+    }

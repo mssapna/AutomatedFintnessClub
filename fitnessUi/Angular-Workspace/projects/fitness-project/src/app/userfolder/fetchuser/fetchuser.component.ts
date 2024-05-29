@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fetchUser } from '../../../Models/fetchUser.model';
 import { UserFetchService } from '../../../Services/UserFetch.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -8,7 +9,9 @@ import { UserFetchService } from '../../../Services/UserFetch.service';
   templateUrl: './fetchuser.component.html',
   styleUrl: './fetchuser.component.css'
 })
-export class FetchuserComponent {
+export class FetchuserComponent implements OnInit,OnDestroy {
+
+  private subscription!:Subscription
   userName: string = ''; 
   userList: fetchUser[] = [];
 
@@ -24,5 +27,11 @@ export class FetchuserComponent {
         (data); 
         this.userList=data;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

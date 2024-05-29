@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '../../../Dashboard/dash-board/auth.service';
 import { AttendanceUser } from '../../../../Models/AttendanceUser.model';
 import { AttendanceUserService } from '../../../../Services/AttendanceUserService.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -13,8 +14,9 @@ import { AttendanceUserService } from '../../../../Services/AttendanceUserServic
   templateUrl: './attendance-user.component.html',
   styleUrl: './attendance-user.component.css'
 })
-export class AttendanceUserComponent  {
+export class AttendanceUserComponent implements OnInit,OnDestroy {
 
+  private subscription!:Subscription
   userName: string = ''; 
   attendanceList: AttendanceUser[] = [];
 
@@ -22,7 +24,7 @@ export class AttendanceUserComponent  {
 
 
   ngOnInit(): void {
-    this.userName=this.auth.getUser().name;
+    this.userName=this.auth.getUser().user.name;
 
     (this.userName);
   
@@ -35,6 +37,12 @@ export class AttendanceUserComponent  {
       
         this.attendanceList = data;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   
 }

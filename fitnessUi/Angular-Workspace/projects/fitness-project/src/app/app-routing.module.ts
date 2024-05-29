@@ -75,6 +75,8 @@ import { FetchpaymentComponent } from './userfolder/fetchpayment/fetchpayment.co
 import { FetchworkoutsComponent } from './trainerfolder/fetchworkouts/fetchworkouts.component';
 import { VerificationCodeComponent } from './Dashboard/verification-code/verification-code.component';
 import { ForgotComponent } from './Dashboard/forgot/forgot.component';
+import { DoctorregisterComponent } from './doctorregister/doctorregister.component';
+import { TrainerselfregComponent } from './trainerselfreg/trainerselfreg.component';
 
 
 
@@ -94,6 +96,7 @@ const routes: Routes = [
       { path: 'trainers/add', component: TrainerregComponent },
       { path: 'doctors', component: DoctorListComponent },
       { path: 'doctors/add', component: DoctorComponent },
+      { path: 'doctors/edit/:id', component: DoctorComponent },
       { path: 'users/edit/:id', component: UserFormComponent },
       { path: 'trainers/edit/:id', component: TrainerregComponent },
       { path: 'equipment/edit/:id', component: EquipmentregeComponent },
@@ -228,7 +231,10 @@ const routes: Routes = [
   },
 
 
-
+  { path:'doctorRegister',component:DoctorregisterComponent},
+  {
+    path:'trainerRegister',component:TrainerselfregComponent
+  },
 
   { path: '', redirectTo: '/about', pathMatch: 'full' },
 

@@ -39,15 +39,15 @@
           </div>
           <div class="form-group col-md-6">
             <label for="email">Email</label>
-         <div>
-          <input type="email" class="form-control" ngModel name="email" required
-          pattern="[a-zA-Z0-9._%+-]+@gmail\.com" #email="ngModel" placeholder="Enter your email">
-        <div *ngIf="email.invalid && email.touched" class="text-danger">
-          <span *ngIf="email.errors?.['required']">Email is required.</span>
-          <span *ngIf="email.errors?.['pattern']">Invalid email, please check.</span>
+            <div>
+                <input type="email" class="form-control" ngModel name="email" required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #email="ngModel" placeholder="Enter your email">
+                <div *ngIf="email.invalid && email.touched" class="text-danger">
+                    <span *ngIf="email.errors?.['required']">Email is required.</span>
+                    <span *ngIf="email.errors?.['pattern']">Invalid email format.</span>
+                </div>
+            </div>
         </div>
-         </div>
-          </div>
 
           <div class="form-group col-md-6">
             <label for="contactNumber">Contact Number</label>

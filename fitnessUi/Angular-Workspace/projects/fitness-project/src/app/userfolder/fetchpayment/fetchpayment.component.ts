@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Payments } from './payment.model';
 import { PaymentService } from './Payment.service';
 import { AuthService } from '../../Dashboard/dash-board/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-fetchpayment',
   templateUrl: './fetchpayment.component.html',
   styleUrl: './fetchpayment.component.css'
 })
-export class FetchpaymentComponent {
+export class FetchpaymentComponent implements OnInit,OnDestroy {
+
+  private subscription!:Subscription
   userName: string = ''; 
   payment: Payments[] = [];
+
   constructor(private paymentService : PaymentService,private auth:AuthService) { }
 
   ngOnInit(): void {
@@ -26,5 +30,11 @@ export class FetchpaymentComponent {
         (data); 
         this.payment = data;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

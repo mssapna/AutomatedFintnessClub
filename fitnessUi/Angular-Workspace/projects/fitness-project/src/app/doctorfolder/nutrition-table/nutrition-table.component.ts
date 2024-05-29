@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NutritionRepo } from '../../../Services/nutrition.repo';
 import { Nutrition } from '../../../Models/nutrition.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nutrition-table',
   templateUrl: './nutrition-table.component.html',
   styleUrls: ['./nutrition-table.component.css']
 })
-export class NutritionTableComponent implements OnInit {
+export class NutritionTableComponent implements OnInit,OnDestroy {
   nutrition: Nutrition = {
     username:'',
     foodItem: '',
@@ -23,6 +24,7 @@ export class NutritionTableComponent implements OnInit {
     sodiumToBeconsumed: ''
   };
 
+  private subscription!:Subscription
   medicalHistory: any;
   userName: string = '';
   users: any[] = []; 
@@ -48,10 +50,12 @@ export class NutritionTableComponent implements OnInit {
 
   saveNutrition(nutrition: Nutrition) {
     (nutrition);
-    
+
+    console.log("hiiii")
     this.nutritionRepo.saveNutrition(nutrition).subscribe((res)=>{
       
     });
+    this.router.navigate(['/doctorDashboard/userfetch']);
   }
 
   getUserMedicalHistory(userName: string) {
@@ -69,5 +73,10 @@ export class NutritionTableComponent implements OnInit {
   
   goBack() {
     this.router.navigate(['/doctorDashboard/userfetch']);
+  }
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

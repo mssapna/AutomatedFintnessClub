@@ -1,7 +1,10 @@
 .bg-dark{
     height: 600px;
     width: 100px;
-   margin-top: 20px ;
+     margin-top: 20px ;
+}
+.container-fluid{
+    margin-left: 60px;
 }
 .nav-pills li a span
 {
@@ -22,7 +25,6 @@
 #con{
     width: 160px;
     height: 100vh;
-    
     position: absolute;
     top: 0px;
     left: 0px;
@@ -36,34 +38,36 @@ ul{
     margin-left: -50px;
 }
 
-#home{
+.home{
     position: absolute;
     top: 180px;
     left: 20px;
     font-size: 20px;
 }
 
-#condidates{
+.condidates{
     position: absolute;
     top: 280px;
     font-size: 18px;
 }
 
-#feedback{
+.feedback{
     position: absolute;
     top: 310px;
 }
-#userworkouts{
+.userworkouts{
     position: absolute;
     top: 440px;
     font-size: 18px;
 }
-#attendence{
+.attendence{
     position: absolute;
     top: 360px;
     font-size: 18px;
 }
-
+li{
+    cursor: pointer;
+}
 img{
     width:80px;
     height: 80px;
@@ -72,7 +76,7 @@ img{
     left: 20px;
     border-radius: 100%;
   }
-  #horinav{
+  .horinav{
     width: 100vw;
     height: 80px;
     position: absolute;
@@ -82,7 +86,7 @@ img{
     list-style: none;
   }
 
-  #head{
+  .head{
     position: absolute;
     color: orange;
     left: 130px;
@@ -90,5 +94,3 @@ img{
     font-size: 35px;
     width: 400px;
   }
-
-  

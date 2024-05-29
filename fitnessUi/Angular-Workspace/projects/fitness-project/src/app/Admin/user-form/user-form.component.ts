@@ -9,6 +9,7 @@ import { Trainer } from '../../../Models/trainer.model';
 import { Doctor } from '../../../Models/doctor.model';
 import { DoctorService } from '../service/doctor.service';
 import { TrainerService } from '../service/trainer.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // import { UserService } from '../../../Services/user.service';
 
@@ -42,7 +43,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private trainerService: TrainerService,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
+    private snackBar: MatSnackBar,
 
   ) { }
 
@@ -54,6 +56,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       dateOfBirth: this.formBuilder.control(null, [Validators.required]),
       email: this.formBuilder.control('', [Validators.required]),
       contactNumber: this.formBuilder.control('', [Validators.required]),
+      fitnessActivity: this.formBuilder.control('', Validators.required),
       doctorCode: this.formBuilder.control('', Validators.required),
       trainerCode: this.formBuilder.control('', Validators.required),
     });
@@ -64,11 +67,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
 
 
-  } ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  } 
 
   // onSubmit(): void {
   //   const user: User = this.userForm.value;
@@ -88,10 +87,16 @@ export class UserFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submittingForm = true; // Set flag when form is submitted
     const user: User = this.userForm.value;
-  
+    (user);
+
+    if (this.isEditMode) {
+      user.userId = this.userId;
+    }
     // Make an HTTP request to save user data
     this.userService.saveUser(user).subscribe(
       () => {
+        this.showSnackBar('User details added successfully!');
+        this.router.navigate(['/admin/users/add/historymedical']);
         // Success callback
         // Navigate or perform actions after successful submission
   
@@ -111,9 +116,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
-  
-
 
   futureDateValidator(control: AbstractControl): ValidationErrors | null {
     const selectedDate = control.value;
@@ -125,16 +127,16 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     return null;
   }
+
   update() {
     const user: User = this.userForm.value;
     user.userId = this.userDetails.userId
 
     this.userService.updateuser(user).subscribe(() => {
+      this.showSnackBar('User details updated successfully!');
       this.router.navigate(['/admin/users']);
     });
   }
-
-
 
   getDetails(userId: any): void {
     if (userId != null) {
@@ -150,6 +152,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       )
     }
   }
+
   validateDate() {
     const selectedDate = new Date(this.userForm.get('dateOfBirth')?.value);
 
@@ -160,5 +163,18 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, 
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 }

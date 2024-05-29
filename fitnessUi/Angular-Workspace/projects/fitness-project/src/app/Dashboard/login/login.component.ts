@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
@@ -6,31 +6,32 @@ import { Login } from '../../../Models/login.model';
 import { UserService } from '../../../Services/user.service';
 import { AuthService } from '../dash-board/auth.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-
-
-
-
+import { FitnesstypeDetailsService } from '../../Auth/Auth/fitness-details.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit,OnDestroy {
 
   public login = new Login('', '');
   public loginForm: any;
   public values: any[] = [];
   public details: any;
   public isLoggedIn: boolean = false;
+  private subscription!:Subscription
 
   constructor(
     private formBuilder: FormBuilder,
     private service: UserService,
     private router: Router,
     private auth: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private  fitnessService :FitnesstypeDetailsService
   ) { }
+ 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -86,7 +87,7 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem("user", JSON.stringify(response));
                 localStorage.setItem("role", response.role)
                 this.auth.isLogged = true;
-                this.router.navigate(['/adminurl']);
+                this.router.navigate(['/admin']);
                 console.log('Login successful');     
             }
           } else {
@@ -104,7 +105,7 @@ export class LoginComponent implements OnInit {
           }
         }
       );
-      this.service.loginDetails(this.login).subscribe(
+      this.fitnessService.loginDetails(this.login).subscribe(
         (response: any) => {
 
           const json = response.JSON;
@@ -202,6 +203,7 @@ export class LoginComponent implements OnInit {
           if (error.status === 401) {
             console.log('Unauthorized - Incorrect credentials');
           } else {
+            this.showSnackBar("The system is temporarily unavailable.Please try again.");
             console.log('Login failed - Unexpected error');
           }
         }
@@ -210,6 +212,21 @@ export class LoginComponent implements OnInit {
 
   }
 
-
-
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  onUserTypeChange(event: Event) {
+    // Cast the event target to HTMLSelectElement
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    
+    if (selectedValue === 'doctor') {
+      this.router.navigateByUrl('/doctorRegister');
+    } else if (selectedValue === 'trainer') {
+      this.router.navigateByUrl('/trainerRegister');
+    } else if (selectedValue === 'user') {
+      this.router.navigateByUrl('/userlogin');
+    }
+  }
 }

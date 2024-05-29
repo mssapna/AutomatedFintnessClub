@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 
 
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MedicalService } from '../../../Services/medical.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MedicalHistory } from '../../../Models/medical-history.model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,11 +15,12 @@ import { MedicalHistory } from '../../../Models/medical-history.model';
   styleUrls: ['./medical-history.component.css']
 })
 
-  export class MedicalHistoryComponent  implements OnInit  {
+  export class MedicalHistoryComponent  implements OnInit,OnDestroy  {
   
 
   user: any;
   getUserName: any;
+  private subscription!:Subscription
   
   medicalHistory: MedicalHistory = {
     username: '',
@@ -34,6 +36,7 @@ import { MedicalHistory } from '../../../Models/medical-history.model';
     medicalHistoryId: 0
   };
     constructor(private route: ActivatedRoute,private MedicalService: MedicalService,private router:Router, private snackBar: MatSnackBar) {}
+
     ngOnInit(): void {
       this.getUserName=localStorage.getItem("user");
       if(this.getUserName)
@@ -46,8 +49,6 @@ import { MedicalHistory } from '../../../Models/medical-history.model';
         ("trainer not found");
       }
     }
-    
-   
   
     saveMedicalHistory(): void {
      
@@ -63,10 +64,6 @@ import { MedicalHistory } from '../../../Models/medical-history.model';
       );
     }
     
-  
-   
-    
-  
   showSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
@@ -75,4 +72,9 @@ import { MedicalHistory } from '../../../Models/medical-history.model';
     });
   }
   
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   }

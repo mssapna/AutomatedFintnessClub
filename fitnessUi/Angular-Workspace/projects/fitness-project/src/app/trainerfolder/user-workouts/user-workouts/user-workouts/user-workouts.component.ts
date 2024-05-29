@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -8,17 +8,12 @@ import { AuthService } from '../../../../Dashboard/dash-board/auth.service';
 import { WorkoutService } from '../../../../../Services/workout.service';
 import { Workout } from '../../../../../Models/workout.model';
 
-
-
-
-
-
 @Component({
   selector: 'app-user-workouts',
   templateUrl: './user-workouts.component.html',
   styleUrl: './user-workouts.component.css'
 })
-export class UserWorkoutsComponent implements OnInit {
+export class UserWorkoutsComponent implements OnInit,OnDestroy {
 
   private subscription: Subscription = new Subscription();
   username: string = ""; 
@@ -32,13 +27,18 @@ export class UserWorkoutsComponent implements OnInit {
     // alert(this.userName)
     this.fetchWorkoutsByName();
   }
+
   fetchWorkoutsByName() {
-    
-(this.userName)
+    (this.userName)
     this.workoutService.getWorkoutsByName(this.userName).subscribe((res)=>{
 
-     
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
 

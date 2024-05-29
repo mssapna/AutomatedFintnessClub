@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../Dashboard/dash-board/auth.service';
 import { WorkoutService } from '../../../Services/workout.service';
 import { Workout } from '../../../Models/workout.model';
@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './fetchworkouts.component.html',
   styleUrl: './fetchworkouts.component.css'
 })
-export class FetchworkoutsComponent {
+export class FetchworkoutsComponent implements OnInit,OnDestroy {
 
+  private subscription!:Subscription
   workouts: Workout[] = []; 
 
 
@@ -20,13 +21,20 @@ export class FetchworkoutsComponent {
 
     this.fetchWorkouts();
   }
-    fetchWorkouts() {
-      this.workoutService.getWorkout()
-        .subscribe((data: Workout[]) => {
-          console.log(data); 
-          this.workouts = data;
-        });
+
+  fetchWorkouts() {
+    this.workoutService.getWorkout()
+      .subscribe((data: Workout[]) => {
+        console.log(data); 
+        this.workouts = data;
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
+  }
 }
 
 

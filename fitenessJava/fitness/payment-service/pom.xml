@@ -14,7 +14,6 @@
     <artifactId>payment-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>payment-service</name>
-    <packaging>war</packaging>
     <description>Spring Boot project for payment service</description>
 
     <properties>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-verticalnav',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './verticalnav.component.html',
   styleUrl: './verticalnav.component.css'
 })
-export class VerticalnavComponent implements OnInit {
+export class VerticalnavComponent implements OnInit,OnDestroy {
+
+  private subscription!:Subscription
   isMenuOpen: boolean = false;
 
   constructor() { }
@@ -14,5 +17,10 @@ export class VerticalnavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   
 }

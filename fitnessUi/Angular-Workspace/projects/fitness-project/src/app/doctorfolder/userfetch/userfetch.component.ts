@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../Services/doctorUser.service';
 import { Nutrition } from '../../../Models/nutrition.model';
 import { NutritionRepo } from '../../../Services/nutrition.repo';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { NutritionRepo } from '../../../Services/nutrition.repo';
   templateUrl: './userfetch.component.html',
   styleUrls: ['./userfetch.component.css']
 })
-export class UserfetchComponent implements OnInit {
+export class UserfetchComponent implements OnInit,OnDestroy {
+  private subscription!:Subscription
   users!: any[]; // Definite assignment assertion
   medicalHistory: any[] = []; // Initialize medicalHistory array
   medicalHistoryNotFound: boolean = false;
@@ -90,5 +92,11 @@ export class UserfetchComponent implements OnInit {
 
   goToNutritionTable(username: string) {
     this.router.navigate(['/doctorDashboard/nutrition'], { queryParams: { user: username } });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

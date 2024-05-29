@@ -17,6 +17,7 @@ public class UserBean {
 	private String password;
 	private String dateOfBirth;
 	private String role;
+	private String fitnessActivity;
 	private String email;
 	private Long contactNumber;
 	

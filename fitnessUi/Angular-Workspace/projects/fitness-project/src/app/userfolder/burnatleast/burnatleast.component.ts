@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class BurnatleastComponent {
   activity: string = '';
   duration: number = 0;
+  name:string="";
   caloriesPerMinute: number = 5; // Change this value according to your calculation
 
   caloriesBurned: number = 0;

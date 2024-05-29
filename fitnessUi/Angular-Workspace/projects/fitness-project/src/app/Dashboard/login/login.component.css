@@ -53,12 +53,7 @@
     font-size: 15px;
     margin-bottom: 0;
     margin-left: 50px;
-}
-
-.register a {
-    color: #007bff;
-    text-decoration: none;
-
+    color: blue;
 }
 
 .register a:hover {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './workout.component.html',
   styleUrl: './workout.component.css'
 })
-export class WorkoutComponent implements OnInit {
+export class WorkoutComponent implements OnInit,OnDestroy {
+
+  private subscription!:Subscription
   user: any;
   getUserName: any;
   
@@ -29,38 +31,32 @@ export class WorkoutComponent implements OnInit {
     username: ''
   };
     constructor(private route: ActivatedRoute,private workoutService: WorkoutService,private router:Router, private snackBar: MatSnackBar) {}
-    ngOnInit(): void {
-      this.getUserName=localStorage.getItem("user");
-      if(this.getUserName)
-      {
-      this.getUserName=JSON.parse(this.getUserName);
-      this.getUserName.name;
-      this.workout.username = this.getUserName.name;;
-      }
-      else{
-        ("workout not found");
-      }
+  ngOnInit(): void {
+    this.getUserName=localStorage.getItem("user");
+    if(this.getUserName)
+    {
+    this.getUserName=JSON.parse(this.getUserName);
+    this.getUserName.name;
+    this.workout.username = this.getUserName.name;;
     }
-    
-   
-  
-    saveWorkout(): void {
-   
-      this.workoutService.saveWorkout(this.workout).subscribe(
-        (response) => {
-          
-          this.showSnackBar('workout  saved successfully!');
-          this.router.navigate(['/verticalnav/workouts']);
-        },
-        (error) => {
-          console.error('Error saving attendance:', error);
-        }
-      );
+    else{
+      ("workout not found");
     }
-    
+  }
   
-   
-    
+  saveWorkout(): void {
+  
+    this.workoutService.saveWorkout(this.workout).subscribe(
+      (response) => {
+        
+        this.showSnackBar('workout  saved successfully!');
+        this.router.navigate(['/verticalnav/workouts']);
+      },
+      (error) => {
+        console.error('Error saving attendance:', error);
+      }
+    );
+  }
   
   showSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', {
@@ -70,4 +66,9 @@ export class WorkoutComponent implements OnInit {
     });
   }
   
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
+}

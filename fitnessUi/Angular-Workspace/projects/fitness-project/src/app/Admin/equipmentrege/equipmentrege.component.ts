@@ -4,6 +4,7 @@ import { EquipmentService } from '../service/eqipment.service';
 import { Equipment } from '../model/equipment.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class EquipmentregeComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private equipmentService: EquipmentService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar:MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -66,15 +68,9 @@ export class EquipmentregeComponent implements OnInit, OnDestroy {
     equipment.equipmentId = this.equipmentDetails.equipmentId
 
     this.equipmentService.updateequipment(equipment).subscribe(() => {
+      this.showSnackBar('Equipment updated successfully!');
       this.router.navigate(['/admin/equipment']);
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-
-    }
   }
 
   getDetails(doctorId: any): void {
@@ -102,9 +98,22 @@ export class EquipmentregeComponent implements OnInit, OnDestroy {
     }
 
     this.equipmentService.saveEquipment(equipment).subscribe(() => {
+      this.showSnackBar('Equipment added successfully!');
       this.router.navigate(['/admin/equipment']);
     });
   }
+showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, 
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
 
+    }
+  }
 }

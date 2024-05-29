@@ -59,12 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   onSubmit(user: User): void {
     this.submittingForm = true; // Set to true when form is being submitted
 
@@ -123,6 +117,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.dateError = true;
     } else {
       this.dateError = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

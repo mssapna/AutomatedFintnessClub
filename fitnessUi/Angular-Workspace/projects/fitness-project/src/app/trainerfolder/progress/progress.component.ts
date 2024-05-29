@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { Progress } from '../../../Models/progress.model';
 import { Exercise } from '../../../Models/exercise.model';
 import { Workout } from '../../../Models/workout.model';
 import { ProgressService } from '../../../Services/progress.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,7 +21,9 @@ import { ProgressService } from '../../../Services/progress.service';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.css']
 })
-export class ProgressComponent implements OnInit{
+export class ProgressComponent implements OnInit,OnDestroy{
+
+  private subscription!:Subscription
   progressForm: any;
   
   percentages: number = 0;
@@ -34,31 +38,22 @@ export class ProgressComponent implements OnInit{
   username:string="";
   exercises: Exercise[] = [];
   workouts: Workout[] = [];
-  public user: User = new User(0, '', '', new Date(), '', 0, '', '', '');
+  public user: User = new User(0, '', '', new Date(), '', 0, '', '', '','');
   public calculationRequest:CalculationRequest=new CalculationRequest(this.exercises,this.workouts);
-
-  
 
   constructor(
     private progressService: ProgressService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snakBar:MatSnackBar,
   ) { }
 
   calculateProgress() {
-
-   
-   
     this.progressService.calculateProgress(this.calculationRequest).subscribe(
       
       (result) => {
-
-       
-        
         this.percentages = result;
-       
-       
         this.progress.calculateProgress=this.percentages
       },
       (error) => {
@@ -114,13 +109,27 @@ export class ProgressComponent implements OnInit{
  
       this.progressService.saveProgress(this.progress).subscribe(
         (response) => {
-         
+          this.showSnackBar('Proress added successfully!');
         
         },
         (error) => {
           console.error('Error saving progress:', error);
+          this.showSnackBar('Error while saving progress');
         }
       );
     }
- 
+    
+  showSnackBar(message: string) {
+    this.snakBar.open(message, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

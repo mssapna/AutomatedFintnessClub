@@ -1,10 +1,11 @@
 // src/app/user/user-list/user-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../../../Models/user.model';
 import { UserService } from '../../../Services/user.service';
 import { Router } from '@angular/router';
 import { TrainerService } from '../../Admin/service/trainer.service';
 import { Trainer } from '../../Admin/model/trainer.model';
+import { Subscription } from 'rxjs';
 
 
 
@@ -14,8 +15,9 @@ import { Trainer } from '../../Admin/model/trainer.model';
   templateUrl: './trainer-users.component.html',
   styleUrls: ['./trainer-users.component.css']
 })
-export class TrainerUsersComponent implements OnInit {
+export class TrainerUsersComponent implements OnInit,OnDestroy {
  
+  private subscription!:Subscription
   users: User[] = [];
   public trainer :Trainer=new Trainer(0,'','','',0,'','','');
   trainerCode:string=''
@@ -45,12 +47,14 @@ export class TrainerUsersComponent implements OnInit {
     });
     
   }
+
   getAll()
   {
     this.userService.getUsers().subscribe(users =>{
       this.users=users
     })
   }
+  
   deleteUser(id: number): void {
    
     
@@ -60,17 +64,19 @@ export class TrainerUsersComponent implements OnInit {
   }
   
   goToProgress(name:string)
- {
+  {
+    this.router.navigate(["trainer/user/progress"] ,{queryParams: {name:name}});
+  }
 
-  
-  this.router.navigate(["trainer/user/progress"] ,{queryParams: {name:name}});
- }
+  goToExercise(name:string)
+  {
+    this.router.navigate(["trainer/user/exercise"] ,{queryParams: {name:name}});
+  }
 
- goToExercise(name:string)
- {
-  
-  
-  this.router.navigate(["trainer/user/exercise"] ,{queryParams: {name:name}});
- }
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fetchDoctor } from '../../../../Models/fetchDoctor.model';
 import { DoctorFetchService } from '../../../../Services/DoctorFetch.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -10,7 +11,9 @@ import { DoctorFetchService } from '../../../../Services/DoctorFetch.service';
   templateUrl: './doctorfetch.component.html',
   styleUrl: './doctorfetch.component.css'
 })
-export class DoctorfetchComponent {
+export class DoctorfetchComponent implements OnInit,OnDestroy{
+
+  private subscription!:Subscription
   doctorName: string = ''; 
   doctorList: fetchDoctor[] = [];
 
@@ -26,5 +29,11 @@ export class DoctorfetchComponent {
         (data); 
         this.doctorList=data;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

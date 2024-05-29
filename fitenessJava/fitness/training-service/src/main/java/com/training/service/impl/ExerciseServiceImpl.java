@@ -156,6 +156,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 				"http://localhost:8082/api/user/getByName/" + exercise.getUsername(), HttpMethod.GET, httpEntity,
 				UserBean.class);
 		UserBean userBean = responseEntity.getBody();
+		System.out.println(userBean);
 		exercise.setUsername(userBean.getName());
 		exerciseRepository.save(exercise);
 		log.info("Saved successfully");

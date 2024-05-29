@@ -88,6 +88,8 @@ import jsPDF from 'jspdf';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgotComponent } from './Dashboard/forgot/forgot.component';
 import { VerificationCodeComponent } from './Dashboard/verification-code/verification-code.component';
+import { DoctorregisterComponent } from './doctorregister/doctorregister.component';
+import { TrainerselfregComponent } from './trainerselfreg/trainerselfreg.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -138,6 +140,9 @@ import { VerificationCodeComponent } from './Dashboard/verification-code/verific
    UserProfileComponent,
    ViewalltrackersComponent,
    VerticalnavComponent,
+   DoctorregisterComponent,
+   TrainerComponent,
+   TrainerselfregComponent,
 
 AttendanceComponent,
 ClassschedulingComponent,
@@ -184,7 +189,9 @@ UserclassComponent,
    FetchworkoutsComponent,
    ProgressReportsComponent,
    ForgotComponent,
-   VerificationCodeComponent
+   VerificationCodeComponent,
+   DoctorregisterComponent,
+   TrainerselfregComponent
   ],
   
   imports: [
@@ -196,7 +203,7 @@ UserclassComponent,
     BrowserAnimationsModule,   
     MatMenuModule,
     MatIconModule,
-    FormsModule
+    FormsModule 
   ],
   providers: [TrainerService,UserService,DoctorService, provideAnimationsAsync()],
   bootstrap: [AppComponent]

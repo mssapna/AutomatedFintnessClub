@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { plansservice } from './payment.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,6 +6,7 @@ import { Payment } from './payment.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Subscription } from 'rxjs';
 
 
 
@@ -16,7 +17,9 @@ import html2canvas from 'html2canvas';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent {
+export class PaymentComponent implements OnInit,OnDestroy{
+
+  private subscription!:Subscription
   @ViewChild('pdfContent') pdfContent!: ElementRef<any>;
   plansForm: FormGroup;
   loading = false;
@@ -76,17 +79,11 @@ export class PaymentComponent {
     }
   }
   
-
-  
-  
   makePayment():void {
    
     if (this.plansForm.valid) {
       this.loading = true;
-      this.spinnerVisible = true; 
-
-      
-  
+      this.spinnerVisible = true;
      
       setTimeout(() => {
         this.plansService.makePayment(this.payment).subscribe( (data) => {
@@ -99,9 +96,6 @@ export class PaymentComponent {
            this.router.navigate(['/userlogin/historymedical'])
         },
          
-            
-          
-          
           (error: any) => {
            
             this.loading = false;
@@ -124,7 +118,11 @@ export class PaymentComponent {
     });
   }
 
- 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 }
 

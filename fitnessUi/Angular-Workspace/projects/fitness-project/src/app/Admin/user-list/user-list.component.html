@@ -13,6 +13,7 @@
           <div class="table-cell">Date of Birth</div>
           <div class="table-cell">Email</div>
           <div class="table-cell">Contact Number</div>
+          <div class="table-cell">Fitness Activity</div>
           <div class="table-cell">Edit</div>
           <div class="table-cell">Remove</div>
         </div>
@@ -23,6 +24,7 @@
             <div class="table-cell">{{ user.dateOfBirth | date }}</div>
             <div class="table-cell">{{ user.email}}</div>
             <div class="table-cell">{{ user.contactNumber }}</div>
+            <div class="table-cell">{{ user.fitnessActivity }}</div>
             <div class="table-cell">
              <div class="edit" routerLink="edit/{{ user.userId }}"><i class="fas fa-edit"></i></div>
             </div>

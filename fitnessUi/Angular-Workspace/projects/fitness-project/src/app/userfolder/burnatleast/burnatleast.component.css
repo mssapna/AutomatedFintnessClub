@@ -1,4 +1,4 @@
-.burn-calories-container {
+/* .burn-calories-container {
   max-width: 400px;
   margin: auto;
   margin-top: 150px;
@@ -30,4 +30,13 @@ button:hover {
 
 p {
   margin-top: 20px;
+} */
+
+
+.test{
+  margin-left: 550px;
+  margin-top: 70px;
+  /* background-color: pink; */
+   height: 100px;
+   width: 100px;
 }

@@ -1,8 +1,6 @@
-<body>
-    <section>
-        <div class="card">
+ <div class="card">
             <div class="left-container">
-                <div id="img"></div>
+                <div class="img"></div>
                 <h2>{{ user.name }}</h2>
             </div>
             <div class="right-container">
@@ -25,6 +23,10 @@
                         <div class="value">{{ user.contactNumber }}</div>
                     </div>
                     <div class="detail-row">
+                        <div class="label">Fitness Activity:</div>
+                        <div class="value">{{ user.fitnessActivity }}</div>
+                    </div>
+                    <div class="detail-row">
                         <div class="label">Trainer Code:</div>
                         <div class="value">{{ user.trainerCode }}</div>
                     </div>
@@ -35,5 +37,3 @@
                 </div>
             </div>
         </div>
-    </section>
-</body>

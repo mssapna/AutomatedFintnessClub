@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Attendance } from '../../../Models/attendance.model';
 import { AttendanceService } from '../../../Services/attendance.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,9 +14,10 @@ import { AttendanceService } from '../../../Services/attendance.service';
   styleUrls: ['./attendance.component.css'] 
 })
 
-export class AttendanceComponent  implements OnInit  {
+export class AttendanceComponent  implements OnInit,OnDestroy  {
   
 
+  private subscription!:Subscription
   attendance: Attendance = {
     attendanceId: 0,
     name: '',
@@ -25,7 +27,9 @@ export class AttendanceComponent  implements OnInit  {
     feedback: '',
    
   };
+
   constructor(private route: ActivatedRoute,private attendanceService: AttendanceService,private router:Router, private snackBar: MatSnackBar) {}
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['name']) {
@@ -62,13 +66,20 @@ export class AttendanceComponent  implements OnInit  {
   
   goToAttendance(){
     this.router.navigate(['/user-class']);
-}
-showSnackBar(message: string): void {
-  this.snackBar.open(message, 'Close', {
-    duration: 3000,
-    horizontalPosition: 'center',
-    verticalPosition: 'bottom'
-  });
-}
+  }
+
+  showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 }

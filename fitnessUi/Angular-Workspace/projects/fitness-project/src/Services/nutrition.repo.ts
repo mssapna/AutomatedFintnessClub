@@ -17,8 +17,9 @@ export class NutritionRepo {
  
 
   saveNutrition(nutrition: Nutrition): Observable<Nutrition> {
-  
-   
+
+    console.log("hloo");
+    console.log(nutrition);
     return this.http.post<Nutrition>(`${this.baseUrl}/save`, nutrition);
   }
 

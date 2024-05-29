@@ -1,9 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ClassScheduling } from '../../../Models/class-scheduling.model';
 import { ClassSchedulingService } from '../../../Services/ClassSchedulingService.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -14,7 +15,9 @@ import { ClassSchedulingService } from '../../../Services/ClassSchedulingService
   templateUrl: './classscheduling.component.html',
   styleUrl: './classscheduling.component.css'
 })
-export class ClassschedulingComponent implements OnInit {
+export class ClassschedulingComponent implements OnInit,OnDestroy {
+
+  private subscription!:Subscription
   classes: ClassScheduling[] = [];
   newClass: ClassScheduling = { classId: 0, className: '', name: '', date: new Date(), enrolled: 0, duration: '' };
 
@@ -80,21 +83,21 @@ export class ClassschedulingComponent implements OnInit {
   }
 
   deleteClass(deleteClass: ClassScheduling) {
-    const confirmDelete = window.confirm('Are you sure you want to delete this class?');
-  
-    if (confirmDelete) {
-      this.classService.deleteClassScheduling(deleteClass.classId).subscribe(() => {
-        
-        this.classes = this.classes.filter(c => c.classId !== deleteClass.classId);
-        this.showSnackBar('Class deleted successfully!');
-      });
-    }
+    this.classes = this.classes.filter(c => c.classId !== deleteClass.classId); 
+    this.showSnackBar('Class deleted successfully!');
+    this.classService.deleteClassScheduling(deleteClass.classId).subscribe(() => {
+     
+    });
   }
   
+  goToUserClass() {
+    this.router.navigate(['/user-class']);
+  }
 
-goToUserClass() {
-  this.router.navigate(['/user-class']);
-}
-
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
     
 }

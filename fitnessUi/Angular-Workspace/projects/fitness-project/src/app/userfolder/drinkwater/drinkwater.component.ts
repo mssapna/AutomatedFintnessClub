@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-drinkwater',
@@ -10,7 +9,7 @@ export class DrinkwaterComponent {
   waterIntake: number = 0;
   dailyGoal: number = 8;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor() {}
 
   logWater() {
     if (this.waterIntake < this.dailyGoal) {
@@ -21,8 +20,6 @@ export class DrinkwaterComponent {
   }
 
   private showNotification(message: string): void {
-    this.snackBar.open(message, 'Dismiss', {
-      duration: 5000,
-    });
+    alert(message); // Use alert for testing
   }
 }

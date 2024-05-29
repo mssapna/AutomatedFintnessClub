@@ -7,8 +7,7 @@ export interface User {
   email: string;
   contactNumber: number;
   role: string;
+  fitnessActivity:string;
   trainerCode: string;
   doctorCode: string;
 }
-
-

@@ -1,8 +1,9 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { TrainerService } from '../service/trainer.service';
 import { Trainer } from '../model/trainer.model';
+import { Subscription } from 'rxjs';
 
 
 
@@ -14,8 +15,9 @@ import { Trainer } from '../model/trainer.model';
   templateUrl: './trainer-list.component.html',
   styleUrl: './trainer-list.component.css'
 })
-export class TrainerListComponent implements OnInit {
+export class TrainerListComponent implements OnInit,OnDestroy {
   trainers: Trainer[] = [];
+  private subscription!:Subscription
 
 
 
@@ -50,7 +52,11 @@ export class TrainerListComponent implements OnInit {
     });
   }
 
-
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 
 }

@@ -1,34 +1,31 @@
 <div class="container">
-  <div>
-      <div>
-          <form class="form" action="" method="post">
-              <h1>Add Exercise</h1>
-              <tr>
-                <td><label>Username</label></td>
-                <td><input type="text"  [(ngModel)]="exercise.username" name=name readonly></td>
-            </tr>
-              <tr>
-                  <td><label>Exercise Name</label></td>
-                  <td><input type="text"  [(ngModel)]="exercise.exerciseName" name=exerciseName placeholder="Enter exercise name"></td>
-              </tr>
-              <tr>
-                  <td><label>Description</label></td>
-                  <td><input type="text" [(ngModel)]="exercise.description" name=description placeholder="Enter description"></td>
-              </tr>
-              <tr>
-                  <td><label>Number of sets</label></td>
-                  <td><input type="number" [(ngModel)]="exercise.numberOfSets" name=numberOfSets placeholder="Enter number of sets"></td>
-              </tr>
-              <tr>
-                  <td><label>Equipment Needed</label></td>
-                  <td><input type="text" [(ngModel)]="exercise.equipmentNeeded" name=equipmentNeeded placeholder="Enter equipment needed"></td>
-              </tr>
-              <tr>
-                  <td><input class="reset" type="reset"></td>
-                  <td><input class="submit" type="submit" value="Add" routerLink="/trainer/user"  (click)="saveExercise()"></td>
-              </tr>
-          </form>
-          <button type="submit" routerLink="/users" >Exit</button> 
+    <div>
+      <div class="form">
+        <h1>Add Exercise</h1>
+        <div class="form-row">
+          <label>Username</label>
+          <input type="text"  [(ngModel)]="exercise.username" name=name readonly>
+        </div>
+        <div class="form-row">
+          <label>Exercise Name</label>
+          <input type="text"  [(ngModel)]="exercise.exerciseName" name=exerciseName placeholder="Enter exercise name">
+        </div>
+        <div class="form-row">
+          <label>Description</label>
+          <input type="text" [(ngModel)]="exercise.description" name=description placeholder="Enter description">
+        </div>
+        <div class="form-row">
+          <label>Number of sets</label>
+          <input type="number" [(ngModel)]="exercise.numberOfSets" name=numberOfSets placeholder="Enter number of sets">
+        </div>
+        <div class="form-row">
+          <label>Equipment Needed</label>
+          <input type="text" [(ngModel)]="exercise.equipmentNeeded" name=equipmentNeeded placeholder="Enter equipment needed">
+        </div>
+        <div class="form-buttons">
+          <input class="reset" type="reset">
+          <input class="submit" type="submit" value="Add" routerLink="/trainer/user" (click)="saveExercise()">
+        </div>
       </div>
+    </div>
   </div>
-</div>

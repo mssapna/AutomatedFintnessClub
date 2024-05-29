@@ -10,7 +10,7 @@ export class User {
     public contactNumber: number,
     public trainerCode:string,
     public doctorCode:string,
-    public role:string){
-   
-  }
+    public role:string,
+    public fitnessActivity:string 
+  ){}
 }

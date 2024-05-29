@@ -1,7 +1,8 @@
 // src/app/user/user-list/user-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../../../Models/user.model';
 import { UserService } from '../service/user.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -10,8 +11,9 @@ import { UserService } from '../service/user.service';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit,OnDestroy {
   users: User[] = [];
+  private subscription!:Subscription
 
 
 
@@ -42,5 +44,11 @@ export class UserListComponent implements OnInit {
 
       this.getUsers();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

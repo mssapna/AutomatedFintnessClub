@@ -38,7 +38,7 @@
   justify-content: center;
 }
 
-#img {
+.img {
   border: 1px solid black;
   border-radius: 50%;
   width: 180px;
@@ -62,7 +62,8 @@ h1 {
 }
 
 .details {
-  font-size: 20px;
+  font-size: 18px;
+  margin-left: 15px;
 }
 
 .detail-row {

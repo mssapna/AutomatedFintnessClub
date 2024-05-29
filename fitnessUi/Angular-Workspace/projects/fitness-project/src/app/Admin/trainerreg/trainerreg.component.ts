@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 import { TrainerService } from '../service/trainer.service';
 import { Trainer } from '../model/trainer.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -31,7 +32,8 @@ export class TrainerregComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private trainerService: TrainerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar:MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -46,13 +48,7 @@ export class TrainerregComponent implements OnInit, OnDestroy {
 
       contactNumber: ['', Validators.required],
       trainerCode: ['', Validators.required],
-
-
-
-
     });
-
-
 
     if (this.trainerId != 0 && this.trainerId != null) {
       this.getDetails(this.trainerId);
@@ -73,36 +69,33 @@ export class TrainerregComponent implements OnInit, OnDestroy {
     });
 
 
-  } ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+  } 
 
+    onSubmit(): void {
+      const trainer: Trainer = this.trainerForm.value;
+      (trainer);
+
+      if (this.isEditMode) {
+        trainer.trainerId = this.trainerId;
+      }
+
+
+      this.trainerService.saveTrainer(trainer).subscribe(() => {
+        this.showSnackBar('Trainer added successfully!');
+        this.router.navigate(['/admin/trainers']);
+      });
     }
-  }
 
-  onSubmit(): void {
-    const trainer: Trainer = this.trainerForm.value;
-    (trainer);
 
-    if (this.isEditMode) {
-      trainer.trainerId = this.trainerId;
+    update() {
+      const trainer: Trainer = this.trainerForm.value;
+      trainer.trainerId = this.trainerDetails.trainerId
+
+      this.trainerService.updatetrainer(trainer).subscribe(() => {
+        this.showSnackBar('Trainer updated successfully!');
+        this.router.navigate(['/admin/trainers']);
+      });
     }
-
-
-    this.trainerService.saveTrainer(trainer).subscribe(() => {
-      this.router.navigate(['/admin/trainers']);
-    });
-  }
-
-
-  update() {
-    const trainer: Trainer = this.trainerForm.value;
-    trainer.trainerId = this.trainerDetails.trainerId
-
-    this.trainerService.updatetrainer(trainer).subscribe(() => {
-      this.router.navigate(['/admin/trainers']);
-    });
-  }
 
 
 
@@ -118,6 +111,20 @@ export class TrainerregComponent implements OnInit, OnDestroy {
         }
 
       )
+    }
+  }
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, 
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+
     }
   }
 }

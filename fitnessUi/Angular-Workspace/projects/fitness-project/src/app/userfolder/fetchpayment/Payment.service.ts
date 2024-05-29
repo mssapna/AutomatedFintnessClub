@@ -9,8 +9,8 @@ export class PaymentService{
   
   makePayment(paymentData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/save`, paymentData);   
-}
-getUserByName(username: string): Observable<Payments[]> {
+  }
+  getUserByName(username: string): Observable<Payments[]> {
     
     return this.http.get<Payments[]>(`${this.baseUrl}/fetchbyName/${username}`);
   }

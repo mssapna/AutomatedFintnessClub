@@ -28,6 +28,8 @@ public class UserBean {
 	private Long contactNumber;
 
 	private String role;
+	
+	private String fitnessActivity;
 
 	private String trainerCode;
 
